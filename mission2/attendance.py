@@ -108,8 +108,8 @@ if __name__ == "__main__":
     for attendee_info in attendance_data:
         if len(attendee_info) == 2:
             attendace_system.calc_attendance_point(attendee_info[0], attendee_info[1])
-    uniform_num_count = attendace_system.get_uniform_num_count()
-    for attendee in range(1, uniform_num_count + 1):
+
+    for attendee in range(1, attendace_system.get_uniform_num_count() + 1):
         attendace_system.get_bonus_points(attendee)
         attendace_system.calc_grade(attendee)
         attendace_system.print_player_data(attendee)
