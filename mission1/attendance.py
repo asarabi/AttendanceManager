@@ -50,16 +50,25 @@ def calc_attendance_point(attendee_name, attendance_date):
     data_by_day[uniform_num][day_index] += 1
     points[uniform_num] += add_point
 
+
+def get_attendance_data():
+    with open("attendance_weekday_500.txt", encoding='utf-8') as f:
+        lines_data = []
+        for _ in range(500):
+            line = f.readline()
+            if not line:
+                break
+            lines_data.append(line.strip().split())
+    return lines_data
+
+
 def get_eliminate_list():
     try:
-        with open("attendance_weekday_500.txt", encoding='utf-8') as f:
-            for _ in range(500):
-                line = f.readline()
-                if not line:
-                    break
-                attendee_info = line.strip().split()
-                if len(attendee_info) == 2:
-                    calc_attendance_point(attendee_info[0], attendee_info[1])
+        attendance_data = get_attendance_data()
+
+        for attendee_info in attendance_data:
+            if len(attendee_info) == 2:
+                calc_attendance_point(attendee_info[0], attendee_info[1])
 
         for i in range(1, uniform_num_count + 1):
             if data_by_day[i][2] > 9:
@@ -90,6 +99,8 @@ def get_eliminate_list():
 
     except FileNotFoundError:
         print("파일을 찾을 수 없습니다.")
+
+
 
 if __name__ == "__main__":
     get_eliminate_list()
