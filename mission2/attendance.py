@@ -20,6 +20,10 @@ class GradeSystem(ABC):
     def print_player_data(self, player_names, points, attendee):
         pass
 
+    @abstractmethod
+    def get_bonus_points(self, attendance_by_day, points, attendee):
+        pass
+
 
 class GoldSilverGrade(GradeSystem):
     def __init__(self):
@@ -41,6 +45,12 @@ class GoldSilverGrade(GradeSystem):
             print("SILVER")
         else:
             print("NORMAL")
+
+    def get_bonus_points(self, attendance_by_day, points, attendee):
+        if attendance_by_day[attendee][2] > 9:
+            points[attendee] += 10
+        if attendance_by_day[attendee][5] + attendance_by_day[attendee][6] > 9:
+            points[attendee] += 10
 
 class AttendanceSystem:
     _instance = None
@@ -131,10 +141,7 @@ class AttendanceSystem:
 
 
     def get_bonus_points(self, attendee):
-        if self.attendance_by_day[attendee][2] > 9:
-            self.points[attendee] += 10
-        if self.attendance_by_day[attendee][5] + self.attendance_by_day[attendee][6] > 9:
-            self.points[attendee] += 10
+        self.make_grade.get_bonus_points(self.attendance_by_day, self.points, attendee)
 
     def get_uniform_num_count(self):
         return self.uniform_num_count
