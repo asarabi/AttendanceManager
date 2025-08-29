@@ -4,10 +4,11 @@
 |:--:|:--:|
 | D1 | O  |
 | D2 | O  |
-| D3 | x  |
+| D3 | O  |
 | D4 | O  |
 | D5 | O  |
 
 D4 : singleton
 
-<img width="603" height="211" alt="image" src="https://github.com/user-attachments/assets/5959e00c-286b-4278-bbdc-6519333b88a0" />
+<img width="543" height="258" alt="image" src="https://github.com/user-attachments/assets/60958dbe-573b-434d-9d50-b6716a63112a" />
+
