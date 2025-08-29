@@ -6,13 +6,13 @@ from attendance import AttendanceSystem, GoldSilverGrade
 @pytest.fixture
 def txt_file_right_path(request):
     current_directory = os.getcwd()
-    file_name = "attendance_weekday_500.txt"
+    file_name = "test_attendance_weekday_10.txt"
     return  os.path.join(current_directory, 'mission2', file_name)
 
 @pytest.fixture
 def txt_file_wrong_path(request):
     current_directory = os.getcwd()
-    file_name = "attendance_weekday_500.txt"
+    file_name = "test_attendance_weekday_10.txt"
     return  os.path.join(current_directory, file_name)
 
 
