@@ -9,33 +9,16 @@ player_names = [''] * 100
 
 def calc_attendance_point(attendee_name, attendance_date):
     global uniform_num_count
-
+    point_table = {'monday': 1, 'tuesday': 1, 'wednesday': 3, 'thursday': 1, 'friday': 1, 'saturday': 2, 'sunday': 2}
     uniform_num = get_uniform_num(attendee_name)
 
     add_point = 0
     day_index = 0
 
-    if attendance_date == "monday":
-        day_index = 0
-        add_point += 1
-    elif attendance_date == "tuesday":
-        day_index = 1
-        add_point += 1
-    elif attendance_date == "wednesday":
-        day_index = 2
-        add_point += 3
-    elif attendance_date == "thursday":
-        day_index = 3
-        add_point += 1
-    elif attendance_date == "friday":
-        day_index = 4
-        add_point += 1
-    elif attendance_date == "saturday":
-        day_index = 5
-        add_point += 2
-    elif attendance_date == "sunday":
-        day_index = 6
-        add_point += 2
+    for index,(weekday, point) in enumerate(point_table.items()):
+        if attendance_date == weekday:
+            day_index = index
+            add_point += point
 
     attendance_by_day[uniform_num][day_index] += 1
     points[uniform_num] += add_point
