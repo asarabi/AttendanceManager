@@ -20,6 +20,21 @@ class AttendanceSystem:
         self.player_names = [''] * 100
         print("singleton class")
 
+    def get_points(self):  # getter
+         return self.points
+
+    def set_points(self, value):  # setter
+        self.points = value
+
+    def get_grade(self):  # getter
+        return self.grade
+
+    def set_grade(self, value):  # setter
+        self.grade = value
+
+    def set_attendance_by_day(self, value):  # setter
+        self.attendance_by_day = value
+
     def calc_attendance_point(self, attendee_name, attendance_date):
         point_table = {'monday': 1, 'tuesday': 1, 'wednesday': 3, 'thursday': 1, 'friday': 1, 'saturday': 2, 'sunday': 2}
         uniform_num = self.get_uniform_num(attendee_name)
@@ -100,6 +115,8 @@ class AttendanceSystem:
 
     def get_uniform_num_count(self):
         return self.uniform_num_count
+
+
 
 if __name__ == "__main__":
     attendace_system = AttendanceSystem()
