@@ -13,7 +13,7 @@ class GradeSystem(ABC):
         self.grade = value
 
     @abstractmethod
-    def calc_grade(self, attendee):
+    def  calc_grade(self, points, attendee):
         pass
 
     @abstractmethod
