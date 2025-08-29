@@ -6,8 +6,6 @@ attendance_by_day = [[0] * 100 for _ in range(100)]
 points = [0] * 100
 grade = [0] * 100
 player_names = [''] * 100
-wednesday_attendance = [0] * 100
-weekend_attendance = [0] * 100
 
 def calc_attendance_point(attendee_name, attendance_date):
     global uniform_num_count
@@ -26,7 +24,6 @@ def calc_attendance_point(attendee_name, attendance_date):
     elif attendance_date == "wednesday":
         day_index = 2
         add_point += 3
-        wednesday_attendance[uniform_num] += 1
     elif attendance_date == "thursday":
         day_index = 3
         add_point += 1
@@ -36,11 +33,9 @@ def calc_attendance_point(attendee_name, attendance_date):
     elif attendance_date == "saturday":
         day_index = 5
         add_point += 2
-        weekend_attendance[uniform_num] += 1
     elif attendance_date == "sunday":
         day_index = 6
         add_point += 2
-        weekend_attendance[uniform_num] += 1
 
     attendance_by_day[uniform_num][day_index] += 1
     points[uniform_num] += add_point
@@ -70,28 +65,11 @@ def get_attendance_data():
 
     return lines_data
 
-
-def get_eliminate_list():
-
-    attendance_data = get_attendance_data()
-
-    for attendee_info in attendance_data:
-        if len(attendee_info) == 2:
-            calc_attendance_point(attendee_info[0], attendee_info[1])
-
-    for attendee in range(1, uniform_num_count + 1):
-        get_bonus_points(attendee)
-        calc_grade(attendee)
-        print_player_data(attendee)
-
-    print_remove_player_list()
-
-
 def print_remove_player_list():
     print("\nRemoved player")
     print("==============")
     for attendee in range(1, uniform_num_count + 1):
-        if grade[attendee] not in (1, 2) and wednesday_attendance[attendee] == 0 and weekend_attendance[attendee] == 0:
+        if grade[attendee] not in (1, 2) and attendance_by_day[attendee][2] == 0 and attendance_by_day[attendee][5] + attendance_by_day[attendee][6] == 0:
             print(player_names[attendee])
 
 
@@ -122,4 +100,15 @@ def get_bonus_points(attendee):
 
 
 if __name__ == "__main__":
-    get_eliminate_list()
+    attendance_data = get_attendance_data()
+
+    for attendee_info in attendance_data:
+        if len(attendee_info) == 2:
+            calc_attendance_point(attendee_info[0], attendee_info[1])
+
+    for attendee in range(1, uniform_num_count + 1):
+        get_bonus_points(attendee)
+        calc_grade(attendee)
+        print_player_data(attendee)
+
+    print_remove_player_list()
