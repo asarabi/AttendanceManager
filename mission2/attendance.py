@@ -1,5 +1,46 @@
 import os
+from abc import ABC, abstractmethod
 
+
+class GradeSystem(ABC):
+    def __init__(self):
+        self.grade = [0] * 100
+
+    def get_grade(self):  # getter
+        return self.grade
+
+    def set_grade(self, value):  # setter
+        self.grade = value
+
+    @abstractmethod
+    def calc_grade(self, attendee):
+        pass
+
+    @abstractmethod
+    def print_player_data(self, player_names, points, attendee):
+        pass
+
+
+class GoldSilverGrade(GradeSystem):
+    def __init__(self):
+        super().__init__()
+
+    def calc_grade(self, points, attendee):
+        if points[attendee] >= 50:
+            self.grade[attendee] = 1
+        elif points[attendee] >= 30:
+            self.grade[attendee] = 2
+        else:
+            self.grade[attendee] = 0
+
+    def print_player_data(self, player_names, points, attendee):
+        print(f"NAME : {player_names[attendee]}, POINT : {points[attendee]}, GRADE : ", end="")
+        if self.grade[attendee] == 1:
+            print("GOLD")
+        elif self.grade[attendee] == 2:
+            print("SILVER")
+        else:
+            print("NORMAL")
 
 class AttendanceSystem:
     _instance = None
@@ -10,13 +51,14 @@ class AttendanceSystem:
         return cls._instance
 
     def __init__(self):
+        self.make_grade = GoldSilverGrade()
         self.unique_uniform_num = {}
         self.uniform_num_count = 0
 
         # dat[사용자ID][요일]
         self.attendance_by_day = [[0] * 100 for _ in range(100)]
         self.points = [0] * 100
-        self.grade = [0] * 100
+
         self.player_names = [''] * 100
         print("singleton class")
 
@@ -25,12 +67,6 @@ class AttendanceSystem:
 
     def set_points(self, value):  # setter
         self.points = value
-
-    def get_grade(self):  # getter
-        return self.grade
-
-    def set_grade(self, value):  # setter
-        self.grade = value
 
     def set_attendance_by_day(self, value):  # setter
         self.attendance_by_day = value
@@ -50,6 +86,11 @@ class AttendanceSystem:
         self.attendance_by_day[uniform_num][day_index] += 1
         self.points[uniform_num] += add_point
 
+    def calc_grade(self,attendee):
+        self.make_grade.calc_grade(self.points,attendee)
+
+    def print_player_data(self, attendee):
+        self.make_grade.print_player_data(self.player_names, self.points, attendee)
 
     def get_uniform_num(self, attendee_name):
         if attendee_name not in self.unique_uniform_num:
@@ -83,28 +124,10 @@ class AttendanceSystem:
     def print_remove_player_list(self):
         print("\nRemoved player")
         print("==============")
+        grade = self.make_grade.get_grade()
         for attendee in range(1, self.uniform_num_count + 1):
-            if self.grade[attendee] not in (1, 2) and self.attendance_by_day[attendee][2] == 0 and self.attendance_by_day[attendee][5] + self.attendance_by_day[attendee][6] == 0:
+            if grade[attendee] not in (1, 2) and self.attendance_by_day[attendee][2] == 0 and self.attendance_by_day[attendee][5] + self.attendance_by_day[attendee][6] == 0:
                 print(self.player_names[attendee])
-
-
-    def print_player_data(self, attendee):
-        print(f"NAME : {self.player_names[attendee]}, POINT : {self.points[attendee]}, GRADE : ", end="")
-        if self.grade[attendee] == 1:
-            print("GOLD")
-        elif self.grade[attendee] == 2:
-            print("SILVER")
-        else:
-            print("NORMAL")
-
-
-    def calc_grade(self, attendee):
-        if self.points[attendee] >= 50:
-            self.grade[attendee] = 1
-        elif self.points[attendee] >= 30:
-            self.grade[attendee] = 2
-        else:
-            self.grade[attendee] = 0
 
 
     def get_bonus_points(self, attendee):

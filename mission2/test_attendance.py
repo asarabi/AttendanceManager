@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from attendance import AttendanceSystem
+from attendance import AttendanceSystem, GoldSilverGrade
 @pytest.fixture
 def txt_file_right_path(request):
     current_directory = os.getcwd()
@@ -65,12 +65,12 @@ def test_calc_attendance_point_with_right_path(txt_file_right_path,capsys):
 def test_calc_grade():
     attendace_system = AttendanceSystem()
 
-    attendace_system.set_points([0,50,30,20])
+    attendace_system.set_points([0, 50, 30, 20])
     attendace_system.calc_grade(1)
     attendace_system.calc_grade(2)
     attendace_system.calc_grade(3)
 
-    result = attendace_system.get_grade()
+    result = attendace_system.make_grade.get_grade()
     assert result[1] == 1
     assert result[2] == 2
     assert result[3] == 0
@@ -78,7 +78,7 @@ def test_calc_grade():
 def test_print_player_data(capsys):
     attendace_system = AttendanceSystem()
     #1 : Gold, #2 : Silver #ohter num: noraml
-    attendace_system.set_grade([0,1,2])
+    attendace_system.make_grade.set_grade([0,1,2])
     attendace_system.print_player_data(0)
     attendace_system.print_player_data(1)
     attendace_system.print_player_data(2)
